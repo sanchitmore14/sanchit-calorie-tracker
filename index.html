@@ -1,1 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sanchit Calorie Tracker</title>
+
+<style>
+
+/* =========================
+   BASIC SETTINGS
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #eef8f1, #f5f9ff);
+    color: #17231b;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    background: linear-gradient(135deg, #176b3a, #2e9b5f);
+    color: white;
+    text-align: center;
+    padding: 32px 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.subtitle {
+    margin-top: 8px;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container {
+    width: 92%;
+    max-width: 1050px;
+    margin: 28px auto;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+}
+
+.card-title {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   GOALS
+========================= */
+
+.goal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d4ddd7;
+    border-radius: 10px;
+    font-size: 15px;
+    background: #fafafa;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2e9b5f;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: none;
+    background: #20864d;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 16px;
+}
+
+button:hover {
+    background: #176b3a;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.summary-card {
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+}
+
+.summary-title {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.big-number {
+    font-size: 31px;
+    font-weight: bold;
+}
+
+.goal-text {
+    color: #777;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   PROGRESS BAR
+========================= */
+
+.progress {
+    width: 100%;
+    height: 12px;
+    background: #e3e9e5;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #20864d, #63c88b);
+    border-radius: 20px;
+    transition: 0.5s;
+}
+
+
+/* =========================
+   ADD FOOD
+========================= */
+
+.food-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+
+/* =========================
+   FOOD TABLE
+========================= */
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th {
+    background: #eaf6ee;
+    padding: 14px;
+    text-align: center;
+}
+
+td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.empty {
+    color: #777;
+    padding: 25px;
+}
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.delete {
+    background: #dc3d3d;
+    padding: 7px 12px;
+    margin: 0;
+}
+
+.delete:hover {
+    background: #b72828;
+}
+
+
+/* =========================
+   CLEAR BUTTON
+========================= */
+
+.clear {
+    background: #555;
+}
+
+.clear:hover {
+    background: #333;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 28px;
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* =========================
+   MOBILE DESIGN
+========================= */
+
+@media (max-width: 700px) {
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .logo {
+        font-size: 27px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+        🥗 Sanchit Calorie Tracker
+    </div>
+
+    <div class="subtitle">
+        Calorie & Protein Tracking System
+    </div>
+
+</header>
+
+
+
+<div class="container">
+
+
+<!-- =========================
+     DAILY GOALS
+========================= -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        🎯 Daily Nutrition Goals
+    </h2>
+
+
+    <div class="goal-grid">
+
+
+        <div>
+
+            <label>
+                Daily Calories (kcal)
+            </label>
+
+            <input
+                type="number"
+                id="calorieGoal"
+                value="2500"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Daily Protein (g)
+            </label>
+
+            <input
+                type="number"
+                id="proteinGoal"
+                value="100"
+            >
+
+        </div>
+
+
+    </div>
+
+
+    <button onclick="saveGoals()">
+        Save Goals
+    </button>
+
+</section>
+
+
+
+<!-- =========================
+     SUMMARY
+========================= -->
+
+<section class="summary">
+
+
+    <!-- CALORIES -->
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            🔥 Calories Consumed
+        </div>
+
+        <div class="big-number">
+
+            <span id="totalCalories">
+                0
+            </span>
+
+            kcal
+
+        </div>
+
+        <div class="goal-text">
+
+            Goal:
+            <span id="displayCalorieGoal">
+                2500
+            </span>
+
+            kcal
+
+        </div>
+
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="calorieProgress">
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PROTEIN -->
+
+    <div class="summary-card">
+
+        <div class="summary-title">
+            💪 Protein Consumed
+        </div>
+
+        <div class="big-number">
+
+            <span id="totalProtein">
+                0
+            </span>
+
+            g
+
+        </div>
+
+        <div class="goal-text">
+
+            Goal:
+            <span id="displayProteinGoal">
+                100
+            </span>
+
+            g
+
+        </div>
+
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="proteinProgress">
+            </div>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     ADD FOOD
+========================= -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        ➕ Add Food
+    </h2>
+
+
+    <div class="food-grid">
+
+
+        <div>
+
+            <label>
+                Food Name
+            </label>
+
+            <input
+                type="text"
+                id="foodName"
+                placeholder="Example: Chicken"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                type="text"
+                id="quantity"
+                placeholder="Example: 100 g"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Calories
+            </label>
+
+            <input
+                type="number"
+                id="calories"
+                placeholder="Example: 165"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label>
+                Protein (g)
+            </label>
+
+            <input
+                type="number"
+                id="protein"
+                placeholder="Example: 31"
+            >
+
+        </div>
+
+
+    </div>
+
+
+    <button onclick="addFood()">
+        + Add Food
+    </button>
+
+</section>
+
+
+
+<!-- =========================
+     FOOD HISTORY
+========================= -->
+
+<section class="card">
+
+    <h2 class="card-title">
+        🍽️ Today's Food
+    </h2>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Food
+                    </th>
+
+                    <th>
+                        Quantity
+                    </th>
+
+                    <th>
+                        Calories
+                    </th>
+
+                    <th>
+                        Protein
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="foodTable">
+
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+
+    <button
+        class="clear"
+        onclick="clearAll()">
+
+        Clear All
+
+    </button>
+
+</section>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    Sanchit Calorie Tracker © 2026
+    <br>
+    College Mini Project
+
+</footer>
+
+
+
+<script>
+
+/* =================================
+   LOAD DATA
+================================= */
+
+let foods =
+    JSON.parse(
+        localStorage.getItem("sanchitFoods")
+    ) || [];
+
+
+let calorieGoal =
+    Number(
+        localStorage.getItem("sanchitCalorieGoal")
+    ) || 2500;
+
+
+let proteinGoal =
+    Number(
+        localStorage.getItem("sanchitProteinGoal")
+    ) || 100;
+
+
+
+/* =================================
+   SHOW SAVED GOALS
+================================= */
+
+document.getElementById("calorieGoal").value =
+    calorieGoal;
+
+document.getElementById("proteinGoal").value =
+    proteinGoal;
+
+
+document.getElementById("displayCalorieGoal").textContent =
+    calorieGoal;
+
+document.getElementById("displayProteinGoal").textContent =
+    proteinGoal;
+
+
+
+/* =================================
+   SAVE GOALS
+================================= */
+
+function saveGoals() {
+
+    calorieGoal =
+        Number(
+            document.getElementById("calorieGoal").value
+        );
+
+
+    proteinGoal =
+        Number(
+            document.getElementById("proteinGoal").value
+        );
+
+
+    if (
+        calorieGoal <= 0 ||
+        proteinGoal <= 0
+    ) {
+
+        alert(
+            "Please enter valid goals."
+        );
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "sanchitCalorieGoal",
+        calorieGoal
+    );
+
+
+    localStorage.setItem(
+        "sanchitProteinGoal",
+        proteinGoal
+    );
+
+
+    document.getElementById(
+        "displayCalorieGoal"
+    ).textContent = calorieGoal;
+
+
+    document.getElementById(
+        "displayProteinGoal"
+    ).textContent = proteinGoal;
+
+
+    updateSummary();
+
+
+    alert(
+        "Daily goals saved successfully! ✅"
+    );
+
+}
+
+
+
+/* =================================
+   ADD FOOD
+================================= */
+
+function addFood() {
+
+    let name =
+        document
+        .getElementById("foodName")
+        .value
+        .trim();
+
+
+    let quantity =
+        document
+        .getElementById("quantity")
+        .value
+        .trim();
+
+
+    let calories =
+        Number(
+            document
+            .getElementById("calories")
+            .value
+        );
+
+
+    let protein =
+        Number(
+            document
+            .getElementById("protein")
+            .value
+        );
+
+
+    if (
+        name === "" ||
+        quantity === "" ||
+        calories <= 0 ||
+        protein < 0
+    ) {
+
+        alert(
+            "Please enter all food details correctly."
+        );
+
+        return;
+    }
+
+
+    let food = {
+
+        id: Date.now(),
+
+        name: name,
+
+        quantity: quantity,
+
+        calories: calories,
+
+        protein: protein
+
+    };
+
+
+    foods.push(food);
+
+
+    localStorage.setItem(
+        "sanchitFoods",
+        JSON.stringify(foods)
+    );
+
+
+    /* Clear input boxes */
+
+    document.getElementById(
+        "foodName"
+    ).value = "";
+
+
+    document.getElementById(
+        "quantity"
+    ).value = "";
+
+
+    document.getElementById(
+        "calories"
+    ).value = "";
+
+
+    document.getElementById(
+        "protein"
+    ).value = "";
+
+
+    displayFoods();
+
+    updateSummary();
+
+}
+
+
+
+/* =================================
+   DISPLAY FOOD
+================================= */
+
+function displayFoods() {
+
+    let table =
+        document.getElementById(
+            "foodTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    if (foods.length === 0) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="5"
+                    class="empty">
+
+                    🍽️ No food added yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    foods.forEach(function(food) {
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>
+                    ${food.name}
+                </td>
+
+                <td>
+                    ${food.quantity}
+                </td>
+
+                <td>
+                    ${food.calories} kcal
+                </td>
+
+                <td>
+                    ${food.protein} g
+                </td>
+
+                <td>
+
+                    <button
+                        class="delete"
+                        onclick="deleteFood(${food.id})">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
+
+/* =================================
+   DELETE FOOD
+================================= */
+
+function deleteFood(id) {
+
+    foods =
+        foods.filter(function(food) {
+
+            return food.id !== id;
+
+        });
+
+
+    localStorage.setItem(
+        "sanchitFoods",
+        JSON.stringify(foods)
+    );
+
+
+    displayFoods();
+
+    updateSummary();
+
+}
+
+
+
+/* =================================
+   UPDATE SUMMARY
+================================= */
+
+function updateSummary() {
+
+    let totalCalories = 0;
+
+    let totalProtein = 0;
+
+
+    foods.forEach(function(food) {
+
+        totalCalories +=
+            Number(food.calories);
+
+        totalProtein +=
+            Number(food.protein);
+
+    });
+
+
+    document.getElementById(
+        "totalCalories"
+    ).textContent =
+        totalCalories;
+
+
+    document.getElementById(
+        "totalProtein"
+    ).textContent =
+        totalProtein;
+
+
+
+    /* Calculate progress */
+
+    let caloriePercentage =
+        (totalCalories / calorieGoal) * 100;
+
+
+    let proteinPercentage =
+        (totalProtein / proteinGoal) * 100;
+
+
+    if (caloriePercentage > 100) {
+        caloriePercentage = 100;
+    }
+
+
+    if (proteinPercentage > 100) {
+        proteinPercentage = 100;
+    }
+
+
+    document.getElementById(
+        "calorieProgress"
+    ).style.width =
+        caloriePercentage + "%";
+
+
+    document.getElementById(
+        "proteinProgress"
+    ).style.width =
+        proteinPercentage + "%";
+
+}
+
+
+
+/* =================================
+   CLEAR ALL
+================================= */
+
+function clearAll() {
+
+    if (foods.length === 0) {
+
+        alert(
+            "There is no food to delete."
+        );
+
+        return;
+    }
+
+
+    let answer =
+        confirm(
+            "Are you sure you want to delete all food entries?"
+        );
+
+
+    if (answer) {
+
+        foods = [];
+
+
+        localStorage.setItem(
+            "sanchitFoods",
+            JSON.stringify(foods)
+        );
+
+
+        displayFoods();
+
+        updateSummary();
+
+    }
+
+}
+
+
+
+/* =================================
+   START WEBSITE
+================================= */
+
+displayFoods();
+
+updateSummary();
+
+</script>
+
+
+</body>
+
+</html>
